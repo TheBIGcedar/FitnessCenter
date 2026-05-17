@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fitness Center Calendar</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="calendar-app">
+    <section class="calendar-panel">
+      <header class="calendar-header">
+        <div class="month-controls">
+          <button id="prevMonth" class="nav-button" aria-label="Previous month">◀</button>
+          <div class="month-label">
+            <select id="monthSelect"></select>
+            <span id="yearLabel"></span>
+          </div>
+          <button id="nextMonth" class="nav-button" aria-label="Next month">▶</button>
+        </div>
+        <div class="calendar-actions">
+          <button id="addClassBtn" class="primary-button">Add Class</button>
+        </div>
+      </header>
+
+      <div class="calendar-grid" id="calendarGrid"></div>
+    </section>
+
+    <aside class="editor-panel">
+      <div class="editor-card">
+        <h2>Class Details</h2>
+        <form id="classForm">
+          <label>
+            Date
+            <input type="text" id="selectedDate" name="date" readonly />
+          </label>
+
+          <label>
+            Class title
+            <input type="text" id="classTitle" name="title" placeholder="Yoga, Spin, HIIT..." required />
+          </label>
+
+          <label>
+            Time
+            <input type="time" id="classTime" name="time" required />
+          </label>
+
+          <label>
+            Location
+            <input type="text" id="classLocation" name="location" placeholder="Studio A, Pool" />
+          </label>
+
+          <div class="form-buttons">
+            <button type="submit" class="primary-button">Save</button>
+            <button type="button" id="deleteClassBtn" class="danger-button">Delete</button>
+          </div>
+        </form>
+
+        <div class="info-box">
+          <p>Click any day to edit classes for that date. Use the month selector or arrow buttons to move through months.</p>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <template id="dayTemplate">
+    <div class="day-card">
+      <div class="day-header">
+        <span class="day-number"></span>
+        <span class="weekday"></span>
+      </div>
+      <div class="class-list"></div>
+    </div>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>
