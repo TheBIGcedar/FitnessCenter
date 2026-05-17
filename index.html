@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fitness Center Calendar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -20,8 +23,14 @@
         </div>
         <div class="calendar-actions">
           <button id="addClassBtn" class="primary-button">Add Class</button>
+          <button id="printMonthBtn" class="secondary-button">Print Month</button>
         </div>
       </header>
+
+      <div class="print-header">
+        <h1>Big Cedar Wellness Calendar</h1>
+        <p id="printMonthLabel"></p>
+      </div>
 
       <div class="calendar-grid" id="calendarGrid"></div>
     </section>
@@ -36,18 +45,15 @@
           </label>
 
           <label>
-            Class title
-            <input type="text" id="classTitle" name="title" placeholder="Yoga, Spin, HIIT..." required />
+            Class
+            <select id="classTitle" name="title" required>
+              <option value="">Select a class</option>
+            </select>
           </label>
 
           <label>
             Time
             <input type="time" id="classTime" name="time" required />
-          </label>
-
-          <label>
-            Location
-            <input type="text" id="classLocation" name="location" placeholder="Studio A, Pool" />
           </label>
 
           <div class="form-buttons">
@@ -57,7 +63,7 @@
         </form>
 
         <div class="info-box">
-          <p>Click any day to edit classes for that date. Use the month selector or arrow buttons to move through months.</p>
+          <p>Click any day to view or save a class for that date. Then use Print Month to create a full calendar layout for monthly review.</p>
         </div>
       </div>
     </aside>

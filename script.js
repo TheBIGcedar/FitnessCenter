@@ -8,12 +8,13 @@ const weekdayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const form = document.getElementById('classForm');
 const monthSelect = document.getElementById('monthSelect');
 const yearLabel = document.getElementById('yearLabel');
+const printMonthLabel = document.getElementById('printMonthLabel');
 const selectedDateInput = document.getElementById('selectedDate');
-const classTitleInput = document.getElementById('classTitle');
+const classTitleSelect = document.getElementById('classTitle');
 const classTimeInput = document.getElementById('classTime');
-const classLocationInput = document.getElementById('classLocation');
 const calendarGrid = document.getElementById('calendarGrid');
 const addClassBtn = document.getElementById('addClassBtn');
+const printMonthBtn = document.getElementById('printMonthBtn');
 const deleteClassBtn = document.getElementById('deleteClassBtn');
 const prevMonthBtn = document.getElementById('prevMonth');
 const nextMonthBtn = document.getElementById('nextMonth');
@@ -24,6 +25,17 @@ let selectedEntryIndex = null;
 
 const scheduleKey = 'fitnessCenterSchedule';
 const schedule = loadSchedule();
+
+const classOptions = [
+  'Yoga Class',
+  'Mobility and Core',
+  'Big Cedar History Walk',
+  'Cardio HIIT',
+  'Yoga Walk',
+  'Dance Fitness',
+  'Stretch, Roll, and Release',
+  'Stretch and Soothe'
+];
 
 function loadSchedule() {
   try {
@@ -48,12 +60,24 @@ function initMonthSelect() {
 
   monthSelect.value = currentDate.getMonth();
   yearLabel.textContent = currentDate.getFullYear();
+  printMonthLabel.textContent = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+  populateClassOptions();
+}
+
+function populateClassOptions() {
+  classOptions.forEach((title) => {
+    const option = document.createElement('option');
+    option.value = title;
+    option.textContent = title;
+    classTitleSelect.appendChild(option);
+  });
 }
 
 function renderCalendar() {
-  calendarGrid.innerHTML = ''; 
+  calendarGrid.innerHTML = '';
   yearLabel.textContent = currentDate.getFullYear();
   monthSelect.value = currentDate.getMonth();
+  printMonthLabel.textContent = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -100,7 +124,6 @@ function createDayCell(date, classes) {
       pill.className = 'class-pill';
       pill.innerHTML = `
         <strong>${entry.time} • ${entry.title}</strong>
-        <span>${entry.location || 'TBD'}</span>
       `;
       list.appendChild(pill);
     });
@@ -132,9 +155,8 @@ function openEditor(date) {
   selectedDateInput.value = date.toLocaleDateString(undefined, {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
   });
-  classTitleInput.value = '';
+  classTitleSelect.value = '';
   classTimeInput.value = '09:00';
-  classLocationInput.value = '';
   deleteClassBtn.style.display = 'none';
 
   const key = formatDateKey(date);
@@ -142,9 +164,8 @@ function openEditor(date) {
 
   if (entries.length > 0) {
     const first = entries[0];
-    classTitleInput.value = first.title;
+    classTitleSelect.value = first.title;
     classTimeInput.value = first.time;
-    classLocationInput.value = first.location;
     deleteClassBtn.style.display = 'inline-flex';
     selectedEntryIndex = 0;
   }
@@ -160,9 +181,8 @@ function handleFormSubmit(event) {
 
   const key = formatDateKey(selectedDate);
   const entry = {
-    title: classTitleInput.value.trim(),
-    time: classTimeInput.value,
-    location: classLocationInput.value.trim()
+    title: classTitleSelect.value,
+    time: classTimeInput.value
   };
 
   if (!entry.title || !entry.time) return;
@@ -222,6 +242,7 @@ prevMonthBtn.addEventListener('click', () => changeMonth(-1));
 nextMonthBtn.addEventListener('click', () => changeMonth(1));
 monthSelect.addEventListener('change', setMonthFromSelect);
 addClassBtn.addEventListener('click', addDefaultClass);
+printMonthBtn.addEventListener('click', () => window.print());
 
 initMonthSelect();
 renderCalendar();
